@@ -11,5 +11,6 @@ func main() {
 		fmt.Println("err=", err.Error())
 	}
 	username := iniconf.String("user::username")
-	fmt.Println("获取init文件中的值:", username)
+	password := iniconf.String("user::password")
+	fmt.Println("获取init文件中的值:\t name:", username, "\t password:", password)
 }

@@ -12,7 +12,7 @@ var quit chan int = make(chan int)
  * @return {[type]} [description]
  */
 func loop() {
-	for i := 0; i < 1000; i++ { //为了观察，跑多些
+	for i := 0; i < 20; i++ { //为了观察，跑多些
 		fmt.Printf("%d ", i)
 	}
 	quit <- 0
