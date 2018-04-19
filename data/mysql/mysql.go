@@ -15,7 +15,7 @@ type User struct {
 
 //打开数据库
 func OpenDatabase() (db *sql.DB, err error) {
-	return sql.Open("mysql", "root:123456@tcp(192.168.0.103.1:3306)/ding?charset=utf8")
+	return sql.Open("mysql", "root:123456@tcp(127.0.0.1:3306)/test?charset=utf8")
 }
 
 //数据库关闭连接
@@ -38,7 +38,7 @@ func CheckError(err error) {
 func main() {
 	db, err := OpenDatabase()
 	CheckError(err)
-	rows, err := db.Query(" SELECT user,password FROM User ")
+	rows, err := db.Query(" SELECT username,password FROM user ")
 	CheckError(err)
 	defer rows.Close()
 	columns, _ := rows.Columns()
