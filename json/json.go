@@ -4,12 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
+	"log"
 )
 
 type User struct {
-	Id       int
-	Username string
-	Password string
+	Id       int `json:"-"`
+	Username string `json:"username"`
+	Password string	`json:"password"`
 }
 
 func main() {
@@ -34,7 +35,7 @@ func main() {
 
 	lang, err := json.Marshal(user)
 	if err != nil {
-
+		log.Println(err)
 	}
 	fmt.Println(string(lang))
 }
