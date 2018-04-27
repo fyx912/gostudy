@@ -21,7 +21,7 @@ type User struct{
 }
 
 func main()  {
-  engin,err := xorm.NewEngine("mysql", "root:123456@/ding?charset=utf8")
+  engin,err := xorm.NewEngine("mysql", "root:123456@/test?charset=utf8")
   if err!=nil {
     log.Println(err)
   }
@@ -69,10 +69,10 @@ func main()  {
 
   //使用sql语句
   result,_:= engin.Query("select * from user")
-  jsonSql,_:=json.Marshal(result)
-  fmt.Println("sql查询", string(jsonSql))
-  // resultJson :=sql(result)
-  // fmt.Println(resultJson)
+  // jsonSql,_:=json.Marshal(&result)
+  // fmt.Println("sql查询", string(jsonSql))
+  resultJson :=sql(result)
+  fmt.Println("sql查询", string(resultJson))
 }
 
 //[]map[string][]byte 转JSON
