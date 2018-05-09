@@ -16,7 +16,7 @@ type User struct {
 
 var (
 	db          *sql.DB
-	databaseUrl = "root:123456@tcp(127.0.0.1:3306)/test?charset=utf8"
+	databaseUrl = "root:123456@tcp(127.0.0.1:3306)/ding?charset=utf8"
 )
 //打开数据库
 func OpenDatabase() (db *sql.DB, err error) {
