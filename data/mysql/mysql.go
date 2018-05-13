@@ -6,17 +6,22 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"encoding/json"
+	"time"
 )
 
 type User struct {
 	Id       int
 	Username sql.NullString
 	Password sql.NullString
+	Name string
+	Age int
+	Phone string
+	Date time.Time
 }
 
 var (
 	db          *sql.DB
-	databaseUrl = "root:123456@tcp(127.0.0.1:3306)/test?charset=utf8"
+	databaseUrl = "root:123456@tcp(127.0.0.1:3306)/ding?charset=utf8"
 )
 //打开数据库
 func OpenDatabase() (db *sql.DB, err error) {
@@ -51,16 +56,20 @@ func main() {
 	CheckError(err)
 	fmt.Println("json :",string(jsonData))
 
-	// db.Exec("query", args)
+	username := UserBy(1, db)
+	fmt.Println(username)
 }
 
-func UserBy(db *sql.DB)  {
-	// sql = " select * from user where  id=?"
-	// db.Query(query, args)
+func UserBy(id int,db *sql.DB) (username string){
+	sql := " select username from user where  id = ?"
+	rows := db.QueryRow(sql, id)
+	rows.Scan(&username)
+	
+	return username
 }
 
 func Query(db *sql.DB) []map[string]string {
-	sql := "SELECT * FROM user "
+	sql := "SELECT * FROM user where id "
 	rows, err := db.Query(sql)
 	defer rows.Close()
 	CheckError(err)
