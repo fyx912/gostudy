@@ -3,10 +3,11 @@ package main
 import(
 	"github.com/gin-gonic/gin"
 	"net/http"
+	 "goStudy/gin/routers"
 )
 
 func main(){
-	router := gin.Default()
+	router := routers.Router()
 
 	router.GET("/",func(c *gin.Context){
 		c.String(http.StatusOK,"It works")
@@ -18,12 +19,13 @@ func main(){
 		})
 	})
 
-
 	router.GET("user:name",func (c *gin.Context)  {
 		name := c.Param("name")
 		message := "hello " +name +"!"
 		c.String(http.StatusOK, message) 
 	})
+	
+	// router.Run(":8888")
+	http.ListenAndServe(":8888", router)
 
-	router.Run(":8888");
 }
