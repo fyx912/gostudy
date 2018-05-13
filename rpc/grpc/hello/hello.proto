@@ -1,0 +1,19 @@
+syntax = "proto3"; //protobuf3 协议
+
+package hello;
+
+//request
+message HelloRequest{
+    string name = 1;
+}
+
+//response
+message HelloReply{
+    string name = 1;
+}
+
+//service
+service Data{
+    rpc SayHello(HelloRequest) returns (HelloReply) {};
+    rpc Hi(HelloRequest)returns(HelloReply);
+}
