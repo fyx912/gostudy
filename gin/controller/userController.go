@@ -1,10 +1,9 @@
 package controller
 
 import (
+	"gostudy/gin/service"
 	"log"
 	// "encoding/json"
-	"fmt"
-	
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -29,18 +28,22 @@ func GetLoginHandler(this *gin.Context) {
 func PostLogin(this * gin.Context){
 	var reqInfo LoginResponseBody
 	if err := this.BindJSON(&reqInfo); err == nil {
-		fmt.Println(reqInfo)
-		if reqInfo.Username == "admin"  {
-			if reqInfo.Password == "123456" {
-				fmt.Printf("username: %s ,password: %s", reqInfo.Username,reqInfo.Password)
-				this.JSON(http.StatusOK, gin.H{"code":0,"msg":"success"})
+		log.Println(reqInfo)
+		if  "" != reqInfo.Username  {
+			if reqInfo.Password != "" {
+				if service.IsLogin(reqInfo.Username,reqInfo.Password) {
+					log.Printf("username: %s ,password: %s", reqInfo.Username,reqInfo.Password)
+					this.JSON(http.StatusOK, gin.H{"code":0,"msg":"success"})
+				}else{
+					this.JSON(http.StatusOK, gin.H{"code":0,"msg":"Failed! becesu: Incorrect user or password!"})
+				}
 			}else {
 				log.Printf("Failed! becesu: Incorrect user password %s \n", reqInfo.Password)
-				this.JSON(200, gin.H{"code":1,"msg":"Failed! becesu: Incorrect password"})
+				this.JSON(200, gin.H{"code":1,"msg":"Failed! becesu: Incorrect password!"})
 			}
 		}else{
 			log.Printf("Failed! becesu: Incorrect user name %s \n", reqInfo.Password)
-			this.JSON(200, gin.H{"code":1,"msg":"Failed! becesu: Incorrect user name"})
+			this.JSON(200, gin.H{"code":1,"msg":"Failed! becesu: Incorrect user name!"})
 		}
 	}else{
 		log.Printf("Failed! becesu:  %s \n", err.Error())

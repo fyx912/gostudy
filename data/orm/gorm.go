@@ -9,7 +9,7 @@ import(
 )
 //默认表名是`users`
 type User struct{
-  Id int64   `gorm:"primary_key,AUTO_INCREMENT`// 字段`ID`为默认主键
+  Id int64   `gorm:"primary_key,AUTO_INCREMENT"`// 字段`ID`为默认主键
   Username string 
   Password string 
   Name string 
@@ -37,26 +37,34 @@ func (LotteryList) TableName() string{
 
 func init(){
 	openDB()
-	defer closeDB()
+	//defer closeDB()
 }
 
 var db *gorm.DB
 func closeDB(){
-	db.Close()
+	error := db.Close()
+	if error != nil {
+		panic(error.Error())
+	}else{
+		log.Panicln("Mysql Connect stop success......")
+	}
 }
 func openDB(){
 	var err error
 	db,err = gorm.Open("mysql", "root:123456@/ding?charset=utf8&parseTime=True&loc=Local")
-	if err !=nil {
-		log.Println("Databases error becuse:",err.Error())
+	if err != nil {
+		panic("Databases error becuse:"+err.Error())
+	}else{
+		log.Println("Mysql Databases start......")
 	}
 	error := db.DB().Ping()
-	if error !=nil{
-		log.Fatalln("Ping mysql error becuse:" ,error.Error())
+	if error != nil{
+		panic("Ping mysql error becuse:"+error.Error())
+	}else{
+		fmt.Println("Ping mysql connect success......")
 	}
 }
 func main()  {
- 	openDB()
     defer closeDB()
 	//启用Logger，显示详细日志
 	db.LogMode(true)
@@ -65,8 +73,12 @@ func main()  {
 	
 	var user User
 	data := db.First(&user)
-	fmt.Printf("data %s \n", data)
-	fmt.Println(user)
+	if data.Error != nil{
+		log.Printf("data error %s \n",data.Error.Error())
+	}else{
+		log.Printf("data %s \n", data.Value)
+		fmt.Println(user)
+	}
 	
 	//修改表名
 	gorm.DefaultTableNameHandler(db,"t_lottery_list")
@@ -77,7 +89,7 @@ func main()  {
 	//  var users []User
 	//  query := QueryAll(users)
 
-	 fmt.Println(" query userAll :",query)
+	//  fmt.Println(" query userAll :",query)
 }
 
 //有问题，待解决

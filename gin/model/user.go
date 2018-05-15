@@ -2,16 +2,19 @@ package model
 
 import (
 	"time"
-	"encoding/json"
-	"github.com/go-xorm/xorm"
+	// "github.com/jinzhu/gorm"
 )
 
 type User struct{
-	Id int64   `xorm:"pk autoincr 'id'" json:"id"`
-	Username string `xorm:"varchar(16)" json:"username"`
-	Password string `xorm:"varchar(16)" json:"passwrod"`
-	Name string `xorm:"varchar(16)" json:"name"`
-	Age int `json:"age"`
-	Phone string `xorm:"varchar(16)" json:"pone"`
-	Date time.Time `xorm:"date" json:"date"  time.format:"2018-01-02"`
-  }
+	Id int64   `gorm:"primary_key,AUTO_INCREMENT"`// 字段`ID`为默认主键
+	Username string `gorm:"not null"`
+	Password string `gorm:"not null"`
+	Name string 
+	Age int 
+	Phone string 
+	Date time.Time 
+	}
+	
+func (u User) TableName() string{
+	return "user"
+}

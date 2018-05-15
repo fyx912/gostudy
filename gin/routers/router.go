@@ -2,7 +2,7 @@ package routers
 
 import(
 	"github.com/gin-gonic/gin"
-	"goStudy/gin/controller"
+	"gostudy/gin/controller"
 	"net/http"
 )
 
