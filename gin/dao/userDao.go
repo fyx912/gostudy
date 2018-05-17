@@ -12,6 +12,7 @@ var (
 func  IsSingin(username string ,password string )bool{
 	log.Printf(" UserDao =======>>> username: %s , password: %s  \n", username,password)
 	data := db.Where("username = ? AND password = ?", username,password).First(&user)
+	log.Fatalln("data:",user)
 	if data.Error != nil {
 		log.Printf("UserDao  error %s \n",data.Error.Error())
 		return false

@@ -79,7 +79,11 @@ func main()  {
 		log.Printf("data %s \n", data.Value)
 		fmt.Println(user)
 	}
+
+	db.Where("username = ? AND password = ?", "admin","123456").First(&user)
 	
+	fmt.Println("条件查询：",user)
+
 	//修改表名
 	gorm.DefaultTableNameHandler(db,"t_lottery_list")
 	var lottery []LotteryList
