@@ -20,6 +20,8 @@ func  Router() *gin.Engine{
 	// gin.New().GET("admin",controller.UserLoginHandler)s
 	router.GET("login",controller.GetLoginHandler)
 	router.POST("login",controller.PostLogin)
+	router.GET("user",controller.GetUser)
+
 
 	router.GET("index",controller.Index)
 	router.GET("index.html",func (c * gin.Context)  {

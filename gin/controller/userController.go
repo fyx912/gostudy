@@ -50,3 +50,17 @@ func PostLogin(this * gin.Context){
 		this.JSON(200, gin.H{"code":2,"msg":"Failed! becesu : "+err.Error()})
 	}
 }
+
+func GetUser(this *gin.Context){
+	 jsonMap := make(map[string]interface{})
+	jsonMap["code"] = 0
+	jsonMap["msg"] = "success"
+	user ,err := service.FindUserAll()
+	if err != nil {
+		log.Println(err,user)
+		jsonMap["data"]= nil
+	}else{
+		jsonMap["data"]= user
+	}
+	this.JSON(http.StatusOK,jsonMap)
+}	
