@@ -1,31 +1,20 @@
 package main
 
 import(
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"gostudy/gin/routers"
 	"gostudy/gin/database"
+	"runtime"
+	// "time"
 )
 
 func main(){
-	defer database.Close()
-	router := routers.Router()
-	router.GET("/",func(c *gin.Context){
-		c.String(http.StatusOK,"It works")
-	})
+	runtime.GOMAXPROCS(4)
+	defer database.CloseDB()
 
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-	router.GET("user:name",func (c *gin.Context)  {
-		name := c.Param("name")
-		message := "hello " +name +"!"
-		c.String(http.StatusOK, message) 
-	})
 	// router.Run(":8888")
-	http.ListenAndServe(":8888", router)
+	// http.Request.Header.Set("Last-Modified",time.Now())
+	http.ListenAndServe(":8888", routers.Router)
 
 	
 }

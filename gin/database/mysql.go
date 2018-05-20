@@ -7,14 +7,14 @@ import(
 )
 var (
 	Db *gorm.DB
-	databaseUrl = "root:123456@tcp(127.0.0.1:3306)/ding?charset=utf8"
+	databaseUrl = "root:123456@tcp(127.0.0.1:3306)/ding?charset=utf8&parseTime=True&loc=Local"
 )
 
 func init(){
-	OpenDB()
+	openDB()
 }
 
-func OpenDB(){
+func openDB(){
 	var err error
 	Db,err = gorm.Open("mysql",databaseUrl)
 	if err != nil {
@@ -39,7 +39,7 @@ func OpenDB(){
 	Db.LogMode(true)
 }
 
-func Close(){
+func CloseDB(){
 	defer Db.Close()
 	log.Fatalln("Mysql connect close .....")
 }

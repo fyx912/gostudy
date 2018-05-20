@@ -2,43 +2,47 @@ package routers
 
 import(
 	"github.com/gin-gonic/gin"
-	"gostudy/gin/controller"
+	"gostudy/gin/controllers"
 	"net/http"
 )
 
-func  Router() *gin.Engine{
-	router := gin.Default()
-	router.Static("static", "static")
-	router.StaticFile("/favicon.ico", "static/img/favicon.ico")
-	router.StaticFS("mystatic", http.Dir("/home/ding/mygo/src/goStudy/gin/static/"))
+func init(){
+	htmlRouter()
+	staticRouter()
+	router()	
+}
 
-	// http.Handle("/views", http.StripPrefix("/views", 
+var(
+	Router = gin.Default()
+)
+
+func router(){
+	// Router.Use(gin.Logger())
+	Router.POST("login",controllers.PostLogin)
+	Router.GET("user",controllers.GetUser)
+	Router.GET("user/:username",controllers.GetUserByName)
+	Router.GET("index",controllers.Index)
+}
+
+/**Views HTML Get method*/
+func htmlRouter(){
+	Router.LoadHTMLGlob("views/*")
+	Router.StaticFile("/", "views/login.html")
+	Router.StaticFile("/login", "views/login.html")
+	Router.StaticFile("/index.html", "views/index.html")
+	Router.StaticFile("/charts.html", "views/charts.html")
+	Router.StaticFile("/system.html", "views/system.html")
+	Router.StaticFile("/elements.html", "views/elements.html")
+	Router.StaticFile("/forms.html", "views/forms.html")
+	Router.StaticFile("/meCenter.html", "views/meCenter.html")
+	Router.StaticFile("/tables.html", "views/meCenter.html")
+	Router.StaticFile("/typography.html", "views/meCenter.html")
+}
+/**Static Router Get method*/
+func staticRouter(){
+	Router.Static("static", "static")
+	Router.StaticFile("/favicon.ico", "static/img/favicon.ico")
+	Router.StaticFS("mystatic", http.Dir("/home/ding/mygo/src/goStudy/gin/static/"))
+		// http.Handle("/views", http.StripPrefix("/views", 
 	// 	http.FileServer(http.Dir("/home/ding/mygo/src/goStudy/gin/static/"))))
-	router.StaticFile("/system.html", "./views/ystem.html")
-
-	router.LoadHTMLGlob("views/*")
-	// gin.New().GET("admin",controller.UserLoginHandler)s
-	router.GET("login",controller.GetLoginHandler)
-	router.POST("login",controller.PostLogin)
-	router.GET("user",controller.GetUser)
-
-
-	router.GET("index",controller.Index)
-	router.GET("index.html",func (c * gin.Context)  {
-		c.HTML(http.StatusOK, "index.html", nil)
-	})
-	// router.GET("charts.html",controller.Charts)
-	// router.GET("elements.html",controller.Elements)
-	// router.GET("forms.html",controller.Forms)
-	// router.GET("meCenter.html",controller.MeCenter)
-	// router.GET("system.html",func (c * gin.Context)  {
-	// 	c.HTML(http.StatusOK, "system.html", nil)
-	// })
-	// router.GET("tables.html",func (c * gin.Context)  {
-	// 	c.HTML(http.StatusOK, "tables.html", nil)
-	// })
-	// router.GET("typography.html",func (c * gin.Context)  {
-	// 	c.HTML(http.StatusOK, "typography.html", nil)
-	// })
-	return router
 }
