@@ -59,6 +59,10 @@ func PostLogin(this * gin.Context){
 	}
 }
 
+func PostLoginOut(c *gin.Context){
+	c.JSON(http.StatusOK, gin.H{"code" : 0,"msg":"success"})
+}
+
 func GetUser(this *gin.Context){
 	this.Set("Accept-Encoding", "gzip")
 	this.Set("Last-Modified/ETag", time.Now())

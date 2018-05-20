@@ -19,9 +19,17 @@ var(
 func router(){
 	// Router.Use(gin.Logger())
 	Router.POST("login",controllers.PostLogin)
+	Router.GET("loginOut",func(c *gin.Context){c.HTML(200, "login.html", nil)})
 	Router.GET("user",controllers.GetUser)
 	Router.GET("user/:username",controllers.GetUserByName)
-	Router.GET("index",controllers.Index)
+	Router.GET("index",func(c *gin.Context){
+		c.HTML(200, "index.html", gin.H{
+			"title": "Index",
+		})
+	})
+
+	Router.GET("sys",controllers.GetSystem)
+
 }
 
 /**Views HTML Get method*/

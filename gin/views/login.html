@@ -7,17 +7,18 @@
 <title>login</title>
 <link rel="Bookmark" href="favicon.ico">
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="static/login/css/alert.css" />
 <link rel="stylesheet" type="text/css" href="static/login/css/normalize.css"/>
 <link rel="stylesheet" type="text/css" href="static/login/css/login.css"/>
 <!--必要样式-->
 <link rel="stylesheet" type="text/css" href="static/login/css/component.css"/>
-<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
+
 <!--[if IE]>
 <script src="js/html5.js"></script>
 <![endif]-->
 </head>
 <body>
-		<div class="container demo-1">
+		<div class="container login-1">
 			<div class="content">
 				<div id="large-header" class="large-header">
 					<canvas id="demo-canvas"></canvas>
@@ -38,8 +39,8 @@
 								</button>
 								<strong id = "warningId"></strong>
 							</div>
-							<div class="mb2">
-								<a class="act-but submit" href="javascript:;" v-on:click="login()" style="color: #FFFFFF">登录</a>
+							<div class="mb2"  v-on:click="login()">
+								<a class="act-but submit" href="javascript:;"  style="color: #FFFFFF">登录</a>
 							</div>
 						</form>
 					</div>
