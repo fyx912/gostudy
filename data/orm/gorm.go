@@ -46,7 +46,7 @@ func closeDB(){
 	if error != nil {
 		panic(error.Error())
 	}else{
-		log.Panicln("Mysql Connect stop success......")
+		log.Println("Mysql Connect stop success......")
 	}
 }
 func openDB(){
@@ -90,8 +90,10 @@ func main()  {
 	 lotteryData := db.Find(&lottery)
 	 fmt.Println("lottery : ", lotteryData.Value)
 	
-	//  var users []User
-	//  query := QueryAll(users)
+	 var users []User
+	 db.Find(&users)
+
+	 fmt.Println(users)
 
 	//  fmt.Println(" query userAll :",query)
 }
