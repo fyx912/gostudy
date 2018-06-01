@@ -48,9 +48,11 @@ func htmlRouter(){
 }
 /**Static Router Get method*/
 func staticRouter(){
-	Router.Static("static", "static")
-	Router.StaticFile("/favicon.ico", "static/img/favicon.ico")
-	Router.StaticFS("mystatic", http.Dir("/home/ding/mygo/src/goStudy/gin/static/"))
+	// 显示当前文件夹下的所有文件/或者指定文件
+	Router.StaticFS("show", http.Dir("."))
+	Router.Static("static", "./static")
+	Router.StaticFile("favicon.ico", "static/img/favicon.ico")
+	
 		// http.Handle("/views", http.StripPrefix("/views", 
 	// 	http.FileServer(http.Dir("/home/ding/mygo/src/goStudy/gin/static/"))))
 }
