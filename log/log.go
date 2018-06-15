@@ -12,9 +12,9 @@ func main(){
 	if err != nil {
 		log.Fatalln(" Open file error! ",err)
 	}
-	debug := log.New(logFile, "[Debug]", log.LstdFlags)
+	debug := log.New(logFile, "[log-Debug]", log.LstdFlags)
 	debug.Println(" The debug message  here")
-	debug.SetPrefix("[Info]")
+	debug.SetPrefix("[log-Info]")
 	debug.Println("The Info message here ")
 	debug.SetFlags(debug.Flags()|log.LstdFlags)
 	debug.Println("The different prefix")
