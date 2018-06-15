@@ -6,6 +6,7 @@ import(
 	"gostudy/gin/database"
 	"runtime"
 	// "time"
+	"log"
 )
 
 func main(){
@@ -14,7 +15,6 @@ func main(){
 
 	// router.Run(":8888")
 	// http.Request.Header.Set("Last-Modified",time.Now())
-	http.ListenAndServe(":8888", routers.Router)
-
+	log.Fatalln(http.ListenAndServe(":8888", routers.Router))
 	
 }

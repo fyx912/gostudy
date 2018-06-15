@@ -1,0 +1,8 @@
+app:
+  mysql:
+    databaseUrl: root:123456@tcp(127.0.0.1:3306)/ding?charset=utf8&parseTime=True&loc=Local 
+    maxIdleConns: 200
+    maxOpenConns: 20
+    ConnMaxLifetime: 3000
+
+  
