@@ -29,6 +29,7 @@ func router(){
 	})
 
 	Router.GET("sys",controllers.GetSystem)
+	Router.GET("map",controllers.GetMap)
 
 }
 
