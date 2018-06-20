@@ -4,6 +4,10 @@ import(
 	"github.com/gin-gonic/gin"
 	"gostudy/gin/controllers"
 	"net/http"
+	"github.com/gin-contrib/sessions"
+	// "github.com/gin-contrib/sessions/memstore"
+	"github.com/gin-contrib/sessions/redis"
+	"gostudy/gin/common"
 )
 
 func init(){
@@ -17,7 +21,34 @@ var(
 )
 
 func router(){
-	// Router.Use(gin.Logger())
+	r := Router
+	// store := memstore.NewStore([]byte("secret"))
+	store, _ := redis.NewStore(10, "tcp", "localhost:6379", "", []byte("secret"))
+	Router.Use(sessions.Sessions("mysession", store))
+
+	r.GET("/test", func (c *gin.Context)  {
+		session := sessions.Default(c)
+		var count int
+		v := session.Get("count")
+		sessionId := session.Get("sessionId")
+		if sessionId == nil{
+			sessionId = common.UUID()
+			session.Set("sessionId", sessionId)
+		}
+		if v == nil {
+			count = 0
+		} else {
+			count = v.(int)
+			count++
+		}
+		session.Set("count", count)
+		session.Save()
+		mysession ,_:=c.Request.Cookie("mysession")
+		sessionValue := session.Get("mysession")
+		c.JSON(200, gin.H{"count": session.Get("count"),"session":mysession,"sessionValue:":sessionValue,"flag":count==session.Get("count"),"sessionId":sessionId})
+	})
+
+	Router.Use(gin.Logger())
 	Router.POST("login",controllers.PostLogin)
 	Router.GET("loginOut",func(c *gin.Context){c.HTML(200, "login.html", nil)})
 	Router.GET("user",controllers.GetUser)
