@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"time"
+	// "time"
 	"strings"
 	"github.com/gin-gonic/gin"
 	"gostudy/gin/service"
@@ -64,8 +64,6 @@ func PostLoginOut(c *gin.Context){
 }
 
 func GetUser(this *gin.Context){
-	this.Set("Accept-Encoding", "gzip")
-	this.Set("Last-Modified/ETag", time.Now())
 	jsonMap := make(map[string]interface{})
 	jsonMap["code"] = 0
 	jsonMap["msg"] = "success"

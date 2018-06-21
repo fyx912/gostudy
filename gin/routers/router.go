@@ -5,26 +5,30 @@ import(
 	"gostudy/gin/controllers"
 	"net/http"
 	"github.com/gin-contrib/sessions"
-	// "github.com/gin-contrib/sessions/memstore"
-	"github.com/gin-contrib/sessions/redis"
+	"github.com/gin-contrib/sessions/memstore"
+	// "github.com/gin-contrib/sessions/redis"
 	"gostudy/gin/common"
+	"log"
 )
-
-func init(){
-	htmlRouter()
-	staticRouter()
-	router()	
-}
 
 var(
 	Router = gin.Default()
 )
 
-func router(){
-	r := Router
-	// store := memstore.NewStore([]byte("secret"))
-	store, _ := redis.NewStore(10, "tcp", "localhost:6379", "", []byte("secret"))
-	Router.Use(sessions.Sessions("mysession", store))
+func init(){
+	r:= Router
+	//头部中间件
+	r.Use(headerMiddleware())
+	router(r)
+	htmlRouter()
+	staticRouter()
+}
+
+func router(r *gin.Engine){
+	store := memstore.NewStore([]byte("secret"))
+	// store, _ := redis.NewStore(10, "tcp", "localhost:6379", "", []byte("secret"))
+	r.Use(sessions.Sessions("mysession", store))
+	Router.Use(gin.Logger())
 
 	r.GET("/test", func (c *gin.Context)  {
 		session := sessions.Default(c)
@@ -48,7 +52,6 @@ func router(){
 		c.JSON(200, gin.H{"count": session.Get("count"),"session":mysession,"sessionValue:":sessionValue,"flag":count==session.Get("count"),"sessionId":sessionId})
 	})
 
-	Router.Use(gin.Logger())
 	Router.POST("login",controllers.PostLogin)
 	Router.GET("loginOut",func(c *gin.Context){c.HTML(200, "login.html", nil)})
 	Router.GET("user",controllers.GetUser)
@@ -61,7 +64,6 @@ func router(){
 
 	Router.GET("sys",controllers.GetSystem)
 	Router.GET("map",controllers.GetMap)
-
 }
 
 /**Views HTML Get method*/
@@ -87,4 +89,15 @@ func staticRouter(){
 	
 		// http.Handle("/views", http.StripPrefix("/views", 
 	// 	http.FileServer(http.Dir("/home/ding/mygo/src/goStudy/gin/static/"))))
+}
+
+//自定义头部中间件
+func headerMiddleware() gin.HandlerFunc{
+	return func (c *gin.Context) {
+		c.SetCookie("sesionId", common.UUID(), 0, "", "", true, true)
+		c.Writer.Header().Set("sessionId", common.UUID())
+		c.Writer.Header().Set("accept","application/json")
+		// c.Writer.Header().Set("status",s)
+		log.Println(c.Writer.Status())
+	}
 }
