@@ -49,7 +49,8 @@ func router(r *gin.Engine){
 		session.Save()
 		mysession ,_:=c.Request.Cookie("mysession")
 		sessionValue := session.Get("mysession")
-		c.JSON(200, gin.H{"count": session.Get("count"),"session":mysession,"sessionValue:":sessionValue,"flag":count==session.Get("count"),"sessionId":sessionId})
+		c.JSON(200, gin.H{"count": session.Get("count"),"mysession":mysession,"sessionValue:":sessionValue,
+		"flag":count==session.Get("count"),"sessionId":session.Get("sessionId")})
 	})
 
 	Router.POST("login",controllers.PostLogin)
@@ -63,6 +64,7 @@ func router(r *gin.Engine){
 	})
 
 	Router.GET("sys",controllers.GetSystem)
+	Router.GET("menu",controllers.GetMenu)
 	Router.GET("map",controllers.GetMap)
 }
 
@@ -94,10 +96,22 @@ func staticRouter(){
 //自定义头部中间件
 func headerMiddleware() gin.HandlerFunc{
 	return func (c *gin.Context) {
-		c.SetCookie("sesionId", common.UUID(), 0, "", "", true, true)
-		c.Writer.Header().Set("sessionId", common.UUID())
-		c.Writer.Header().Set("accept","application/json")
+		w := c.Writer
+		c.SetCookie("sessionId", common.UUID(), 0, "/", "", true, true)
+		w.Header().Set("sessionId-header", common.UUID())
+		w.Header().Set("accept","application/json")
 		// c.Writer.Header().Set("status",s)
-		log.Println(c.Writer.Status())
+		log.Println(w.Status())
+
+		uid, _ := c.Request.Cookie("sessionId")
+
+		log.Println("uid:",uid)
+
+		// 处理js-ajax跨域问题
+		w.Header().Set("Access-Control-Allow-Origin", "*") //允许访问所有域
+		w.Header().Set("Access-Control-Allow-Methods", "OPTIONS, POST")
+		w.Header().Add("Access-Control-Allow-Headers", "Content-Type")
+		w.Header().Add("Access-Control-Allow-Headers", "Access-Token")
+		c.Next()
 	}
 }

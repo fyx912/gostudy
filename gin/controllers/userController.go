@@ -9,7 +9,6 @@ import (
 	"log"
 	// "encoding/json"
 	"net/http"
-	
 )
 
 type LoginResponseBody struct {
@@ -29,10 +28,13 @@ func GetLoginHandler(this *gin.Context) {
 		"title": "Login",
 	})
 }
-func PostLogin(this * gin.Context){
+func PostLogin(this *gin.Context){
 	var reqInfo LoginResponseBody
 	if err := this.BindJSON(&reqInfo); err == nil {
 		log.Println(reqInfo)
+		sessionId ,_:= this.Request.Cookie("sessionId")
+		log.Println("sessionId:",sessionId)
+		log.Println("sessionId:",this.GetHeader("sessionId"))
 		if  "" != reqInfo.Username  {
 			if reqInfo.Password != "" {
 				password := common.MD5(reqInfo.Password)
