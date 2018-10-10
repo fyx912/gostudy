@@ -81,6 +81,7 @@ func htmlRouter(){
 	Router.StaticFile("/meCenter.html", "views/meCenter.html")
 	Router.StaticFile("/tables.html", "views/meCenter.html")
 	Router.StaticFile("/typography.html", "views/meCenter.html")
+	Router.StaticFile("/download.html", "views/download.html")
 }
 /**Static Router Get method*/
 func staticRouter(){
