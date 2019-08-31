@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userName` varchar(16) NOT NULL,
-  `password` varchar(16) NOT NULL,
+  `password` varchar(32) NOT NULL,
   `name` varchar(16) DEFAULT NULL,
   `age` int(3) DEFAULT NULL,
   `phone` varchar(16) DEFAULT NULL,
