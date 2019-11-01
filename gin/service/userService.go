@@ -1,7 +1,6 @@
 package service
 
 import(
-    // "github.com/jinzhu/gorm"
 	"gostudy/gin/models"
 	"gostudy/gin/database"
 	"log"
@@ -17,7 +16,7 @@ func  IsSingin(username string ,password string )bool{
 		log.Printf("userSerive  error ====> %s \n",data.Error)
 		return false
 	}else{
-		log.Printf(" userSerive ====IsSingin===>>> user: %s ",data.Value)
+		log.Println(" userSerive ====IsSingin===>>> user: ",data.Value)
 		return true	
 	}	
 }
