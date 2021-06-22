@@ -15,7 +15,7 @@ func main(){
 	router := routers.Router
 
 	// router.Run(":8888")
-	// http.Request.Header..Set("Last-Modified",time.Now())
+	// http.Request.Header.Set("Last-Modified",time.Now())
 	http.ListenAndServe(":8888", router)
 
 	// server := &http.Serve{
