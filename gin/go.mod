@@ -1,6 +1,6 @@
 module gostudy/gin
 
-go 1.13
+go 1.21.3
 
 replace (
 	golang.org/x/crypto => github.com/golang/crypto v0.0.0-20191029031824-8986dd9e96cf
